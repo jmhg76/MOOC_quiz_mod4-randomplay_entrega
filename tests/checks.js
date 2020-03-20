@@ -138,7 +138,6 @@ describe("Funcionales", function(){
        2,
        async function () {
            // Lanzamos 10 intentos de partida, sin cookies. Debería haber más de 2 preguntas diferentes
-           this.msg_ok = "";
            this.msg_err = `Se repite el orden de los quizzes`;
 
            let visited = {}
@@ -164,7 +163,6 @@ describe("Funcionales", function(){
        2,
        async function () {
            // Hacer dos partidas, comprobar que el orden de las preguntas es diferente
-           this.msg_ok = "";
            this.msg_err = "Se repite un quiz";
 
 
@@ -213,7 +211,6 @@ describe("Funcionales", function(){
     it("4: Si se reponde bien, continúa el juego",
        1,
        async function () {
-           this.msg_ok = "";
            this.msg_err = "No continúa pese a responder bien";
 
            for(var i=0; i< 10; i++) {
@@ -240,7 +237,6 @@ describe("Funcionales", function(){
     it("5: Al fallar se termina el juego",
        1,
        async function () {
-           this.msg_ok = "";
            this.msg_err = "Al fallar hay un error";
 
            browser.deleteCookies();
@@ -257,7 +253,6 @@ describe("Funcionales", function(){
     it("6: Se puntúa bien el número de aciertos",
        1,
        async function () {
-           this.msg_ok = "";
            this.msg_err = "No continúa pese a responder bien";
 
            // Repetimos dos veces, para asegurarnos.
