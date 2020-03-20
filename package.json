@@ -1,0 +1,15 @@
+{
+    "name": "Entrega8_randomplay",
+    "author": "CORE-2020",
+    "license": "GNU",
+    "version": "0.0.0",
+    "info": {
+        "githubURL": "CORE-2020/Entrega8_randomplay",
+        "serverUrl": "https://autocorector.dit.upm.es/",
+        "courseId": "8249",
+        "assignmentId": "78802"
+    },
+    "dependencies": {
+        "nodegit": "^0.26.5"
+    }
+}
