@@ -1,4 +1,3 @@
-
 <img  align="left" width="150" style="float: left;" src="https://www.upm.es/sfs/Rectorado/Gabinete%20del%20Rector/Logos/UPM/CEI/LOGOTIPO%20leyenda%20color%20JPG%20p.png">
 <img  align="right" width="60" style="float: right;" src="http://www.dit.upm.es/figures/logos/ditupm-big.gif">
 
@@ -6,7 +5,7 @@
 
 # Entrega 8: Quiz RandomPlay
 
-Versión: 15 de Marzo de 2020
+Versión: 26 de Marzo de 2020
 
 ## Objetivos
 
@@ -16,37 +15,38 @@ Versión: 15 de Marzo de 2020
 
 ## Descripción de la práctica
 
-En esta practica el alumno debe modificar el proyecto **Quiz** desarrollado en la asignatura para que los usuarios jueguen a acertar todos los quizzes existentes en la bases de datos. Los quizzes se presentarán al usuario jugador al azar y sin repetirse. El usuario debe intertar acertar el mayor número de quizzes para obtener la máxima puntuacion.
+En esta práctica el alumno debe modificar el proyecto **Quiz** desarrollado en la asignatura para que los usuarios jueguen a acertar todos los quizzes existentes en la bases de datos. Los quizzes se presentarán al usuario jugador al azar y sin repetirse. El usuario debe intentar acertar el mayor número de quizzes para obtener la máxima puntuacion.
 
-El juego comenzará con la pregunta de un quiz elegido al azar. Si se acierta, se presentará oyta pregunta elegida también al azar, y así sucesivamente. El juego continuará hasta acertar todos los quizzes de la BBDD o hasta fallar una respuesta. El jugador deberá tratar de acertar el número máximo de respuestas.
+El juego comenzará con la pregunta de un quiz elegido al azar. Si se acierta, se presentará otra pregunta elegida también al azar, y así sucesivamente. El juego continuará hasta acertar todos los quizzes de la BBDD o hasta fallar una respuesta. El jugador deberá tratar de acertar el número máximo de respuestas.
 
 Para implementar este juego, deben añadirse las siguientes primitivas a la API:
 
 ```text
 GET /quizzes/randomplay  ## muestra random_play.ejs con una pregunta a contestar  
-                         ## o muestra random_nomore.ejs si no quedan preguntas por contestar
+## o muestra random_nomore.ejs si no quedan preguntas por contestar
 
 GET /quizzes/randomcheck/:quizId?answer=respuesta  
-                         ## muestra el resultado con random_result.ejs
+## muestra el resultado con random_result.ejs
 ```
 
 ## Descargar el código del proyecto
 
 Para desarrollar esta práctica es necesario utilizar la **versión 12 de Node.js**.
 
-El alumno debe clonar el proyecto **Entrega8\_randomplay** en el ordenador en el que se está trabajando:
+El alumno debe clonar en su ordenador de trabajo, el repositorio **git** del proyecto **Entrega8\_randomplay**:
 
 ```sh
 $ git clone https://github.com/CORE-2020/Entrega8_randomplay
 ```
 
-El proyecto **Entrega8\_randomplay** solo contiene los ficheros necesarios para ejecutar el autocorrector. El alumno debe clonar también el proyecto **Quiz** desarrollado en la asignatura en un subdirectorio de **Entrega8\_randomplay**. El proyecto **Quiz** está disponible en el siguiente repositorio git:
+Este proyecto **Entrega8\_randomplay** solo contiene los ficheros necesarios para ejecutar el autocorrector. El alumno debe clonar también el repositorio **git** del proyecto **Quiz** desarrollado en la asignatura, en un subdirectorio de **Entrega8\_randomplay**. El proyecto **Quiz** está disponible en el siguiente repositorio git:
 
 ```url
 https://github.com/CORE-UPM/quiz_2020
 ```
 
-Para clonar el proyecto **Quiz** en un subdirectorio dentro del proyecto **Entrega8\_randomplay**, e instalar las dependencias necesarias, ejecutar:
+Para clonar el proyecto **Quiz** en un subdirectorio dentro del proyecto **Entrega8\_randomplay**, e instalar las dependencias necesarias, hay que ejecutar: 
+
 
 ```sh
 $ cd Entrega8_randomplay
@@ -56,35 +56,43 @@ $ cd quiz_2020
 $ npm install 
 ```
 
+Tras ejecutar estos comandos, el proyecto **Quiz** se ha instalado en el subdirectorio **quiz\_2020**. El alumno debe trabajar dentro del directorio **quiz\_2020** para realizar las tareas de la entrega.
+
 ## Tareas
 
 ### Tarea 1 - Crear una rama git
 
-Para realizar esta práctica el alumno debe crear una rama, denominada **entrega8**, en el commit identificado con el tag **2.5_restoration** ("*Step 2.5: Restoration Routes.*") del proyecto **Quiz**. El último commit de esta rama será la versión de la practica que se evaluará.
+Para realizar esta práctica el alumno debe crear una rama, denominada **entrega8**, en el commit identificado con el tag **2.5\_restoration** ("*Step 2.5: Restoration Routes.*") del proyecto **Quiz**. El último commit de esta rama será la versión de la practica que se evaluará.
 
-Nota: Asegúrese de que se encuentra en el subdirectorio **Entrega8\_randomplay/quiz_2020** antes de ejecutar los comandos que se describen más abajo.
+Nota: Asegúrese de que se encuentra en el subdirectorio **Entrega8\_randomplay/quiz\_2020** antes de ejecutar los comandos que se describen más abajo.
 
 
 El alumno puede crear la rama **entrega8** ejecutando el siguiente comando:
 
-```
+```sh
 $ git branch entrega8 2.5_restoration
 ```
 
-Este comando crea la rama **entrega8** en el commit identificado por el tag **2.5_restoration**.
+Este comando crea la rama **entrega8** en el commit identificado por el tag **2.5\_restoration**.
 
-Para cambiarse a esta rama ejecutar:
+Para cambiarse a esta rama, y desarrollar dentro de ella, hay que ejecutar:
 
-```
+```sh
 $ git checkout entrega8
 ```
 
 Para comprobar que se está trabajando en la rama **entrega8**, el alumno puede ejecutar el comando **"git branch"**, que presentará un listado de las ramas existentes, y marcando con un asterisco la rama actual de trabajo.
 
+```sh
+$ git branch
+* entrega8
+master
+```
+
 El comando **git checkout** anterior puede fallar si la instalacion de paquetes con "**npm install**" modificó el fichero **package-lock.json**. Si ocurre esto, ejecute **"git checkout package-lock.json"** para restaurar ese fichero a su estado original, y repita el checkout.
 
 
-El alumno tambien puede crear ramas y cambiar de rama usando las facilidades que le proporcione el IDE que esté utilizando.
+El alumno tambien puede crear ramas y cambiar de rama usando las facilidades que le proporcione el IDE que esté utilizando (_Visual Studio Code_, _WebStorm_).
 
 ### Tarea 2 - Actualizar la barra de navegación
 
@@ -137,7 +145,7 @@ Para elegir un nuevo quiz que no haya sido contestado aun, puede usarse una opci
 
 ```javascript
 const quiz = await models.Quiz.findOne({
-	where: {'id': {[Sequelize.Op.notIn]: req.session.randomPlayResolved}}
+where: {'id': {[Sequelize.Op.notIn]: req.session.randomPlayResolved}}
 });
 ```
 
@@ -148,8 +156,8 @@ const total = await models.Quiz.count();
 const quedan = total - req.session.randomPlayResolved.length;
 
 const quiz = await models.Quiz.findOne({
-    where: ????? lo de antes ????,
-    offset: Math.floor(Math.random() * quedan)
+where: ????? lo de antes ????,
+offset: Math.floor(Math.random() * quedan)
 });
 ```
 
@@ -173,7 +181,7 @@ Si la respuesta es correcta, el middleware debe:
 
 * Añadir el identificador **id** del quiz al array **req.session.randomPlayResolved**. Conviene comprobar que no se ha añadido ya anteriormente, y evitar así que al recargar esta página se almacene varias veces.
 * Calcular la puntuación obtenida hasta el momento en el juego. Será igual a la longitud del array **req.session.randomPlayResolved**.
-* Generar la respuesta HTTP usando **res.render** para renderizar la vista **quizzes/random_result.ejs**. Hay que pasar tres valores: un booleano llamado **result** indicando si se acertó el quiz o no, el string **answer** con la respuesta dada por el usuario, y el entero **score** con los aciertos conseguidos hasta el momento.
+* Generar la respuesta HTTP usando **res.render** para renderizar la vista **quizzes/random\_result.ejs**. Hay que pasar tres valores: un booleano llamado **result** indicando si se acertó el quiz o no, el string **answer** con la respuesta dada por el usuario, y el entero **score** con los aciertos conseguidos hasta el momento.
 * Si se implemento la mejora opcional que evitaba las trampas, también será necesario borrar **req.session.randomPlayLastQuizId**.
 
 
@@ -189,81 +197,81 @@ Para realizar esta práctica deben usarse los 3 ficheros de vistas siguientes si
 
 La vista **views/quizzes/random\_play.ejs** muestra la pregunta de un quiz y un formulario para que el usuario responda:
 
-```
+```html
 <h1>
-    Random Play:
+Random Play:
 </h1>
 
 <div>
-    Successful answers = <span id="score"><%= score %></span>
+Successful answers = <span id="score"><%= score %></span>
 </div>
 
 <form method="get" action="/quizzes/randomcheck/<%= quiz.id %>">
 
-    <p>
-        Question: <b><%= quiz.question %></b>
-    </p>
+<p>
+Question: <b><%= quiz.question %></b>
+</p>
 
 
-    <div class="wideRow">
-        <input type="text" class="itemWide" id="answer" name="answer" value="" placeholder="Answer" autocomplete="off"/>
-        <input type="submit" class="itemNarrow" id="send" value="Check">
-    </div>
+<div class="wideRow">
+<input type="text" class="itemWide" id="answer" name="answer" value="" placeholder="Answer" autocomplete="off"/>
+<input type="submit" class="itemNarrow" id="send" value="Check">
+</div>
 </form>
 
 ```
 
 La vista **views/quizzes/random\_nomore.ejs** muestra el resultado obtenido al finalizar el juego:
 
-```
+```html
 <h1>
-    End of Random Play:
+End of Random Play:
 </h1>
 
 <div>
-    Successful answers = <span id="score"><%= score %></span>
+Successful answers = <span id="score"><%= score %></span>
 </div>
 
 <p>
-    You answered all questions. You are a champion.
+You answered all questions. You are a champion.
 </p>
 
 <p>
-    <a href="/goback" class="button">Go back</a>
+<a href="/goback" class="button">Go back</a>
 </p>
 
 ```
 
 La vista **views/quizzes/random\_result.ejs** informa sobre si se contestó correctamente o no al quiz de la vista anterior. Solo permite seguir jugando si se contestó correctamente.
 
-```
+```html
 <h1>
-    Random Play:
+Random Play:
 </h1>
 
 <p>
-    Successful answers = <span id="score"><%= score %></span>
+Successful answers = <span id="score"><%= score %></span>
 </p>
 
 <p>
-    The answer <strong> <%= answer %> </strong> is <%= result ? 'right' : 'wrong' %>.
+The answer <strong> <%= answer %> </strong> is <%= result ? 'right' : 'wrong' %>.
 </p>
 
 <% if (!result) { %>
-    <p>
-        You have failed.
-    </p>
-    <p>
-        <a href="/goback" class="button">End of Play</a>
-    </p>
+<p>
+You have failed.
+</p>
+<p>
+<a href="/goback" class="button">End of Play</a>
+</p>
 
 <% } else { %>
-    <p>
-        You have succeeded.
-    </p>
-    <p>
-        <a href="/quizzes/randomplay" class="button">Continue playing</a>
-    </p>
+<p>
+You have succeeded.
+</p>
+<p>
+<a href="/quizzes/randomplay" class="button">Continue playing</a>
+</p>
 <% } %>
 
 ```
@@ -278,7 +286,7 @@ Antes de lanzar el servidor debe aplicar las migraciones pendientes ejecutando:
 $ npm run migrate 
 ```
 
-Nota: o **migrate_win** para Windows.
+Nota: o **migrate\_win** para Windows.
 
 Si no ha ejecutado nunca los seeders, ejecute:
 
@@ -286,7 +294,7 @@ Si no ha ejecutado nunca los seeders, ejecute:
 $ npm run seed 
 ```
 
-Nota: o **seed_win** para Windows.
+Nota: o **seed\_win** para Windows.
 
 ### Congelar los cambios
 
@@ -306,9 +314,9 @@ $ git commit
 
 Para ayudar al desarrollo, se provee una herramienta de autocorrección que prueba las distintas funcionalidades que se piden en el enunciado. Para utilizar esta herramienta debes tener node.js (y npm) (https://nodejs.org/es/) y Git instalados.
 
-Para instalar y hacer uso de la herramienta de autocorrección en el ordenador local, ejecuta los siguientes comandos en el directorio raíz del proyecto, es decir, en el directorio padre del directorio **quiz_express**:
+Para instalar y hacer uso de la herramienta de autocorrección en el ordenador local, ejecuta los siguientes comandos en el directorio raíz del proyecto, es decir, en el directorio padre del directorio **quiz\_express**:
 
-```
+```sh
 $ npm install -g autocorector    ## Instala el programa de test
 $ autocorector                   ## Pasa los tests al fichero a entregar
 ............................     ## en el directorio de trabajo
@@ -318,7 +326,7 @@ $ autocorector                   ## Pasa los tests al fichero a entregar
 También se puede instalar como paquete local, en el caso de que no dispongas de permisos en 
 el ordenador en el que estás trabajando:
 
-```
+```sh
 $ npm install autocorector     ## Instala el programa de test
 $ npx autocorector             ## Pasa los tests al fichero a entregar
 ............................   ## en el directorio de trabajo
@@ -331,13 +339,13 @@ Se puede pasar la herramienta de autocorrección tantas veces como se desee sin 
 
 Una vez satisfecho con su calificación, el alumno puede subir su entrega a Moodle con el siguiente comando:
 
-```
+```sh
 $ autocorector --upload
 ```
 
 o, si se ha instalado como paquete local:
 
-```
+```sh
 $ npx autocorector --upload
 ```
 
