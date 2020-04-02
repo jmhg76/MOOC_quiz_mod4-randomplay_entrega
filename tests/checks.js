@@ -126,7 +126,7 @@ describe("Funcionales", function(){
             await browser.visit("/");
             browser.assert.status(200);
         } catch(e) {
-            console.log(`Parece que no se puede lanzar el servidor. Comprueba que el comando "node _${bin_path}" lanza el servidor correctamente.`);
+            console.log(`Parece que no se puede lanzar el servidor. Comprueba que el comando "node ${bin_path}" lanza el servidor correctamente.`);
             error_critical = e;
         }
     });
@@ -177,7 +177,6 @@ describe("Funcionales", function(){
        2,
        async function () {
            // Hacer dos partidas, comprobar que el orden de las preguntas es diferente
-           this.msg_err = "Se repite un quiz";
 
 
            let visited = {}
@@ -186,6 +185,7 @@ describe("Funcionales", function(){
            browser.deleteCookies();
 
            for(var i=0; i<questions.length; i++) {
+               this.msg_err = "No se ha podido acceder a /quizzes/randomplay";
                await browser.visit("/quizzes/randomplay");
                browser.assert.status(200)
                att = browser.query('form')
@@ -193,8 +193,8 @@ describe("Funcionales", function(){
                    visited[att.action] = 1;
                    num++;
                } else {
-                   throw Error(`Quiz repetido: ${att.action}`)
-                   visited[att.action]++;
+                   this.msg_err = `Quiz repetido: ${att.action}`
+                   throw Error(this.msg_err)
                }
                let tokens = att.action.split("/")
                let id = parseInt(tokens[tokens.length-1])
@@ -222,12 +222,12 @@ describe("Funcionales", function(){
            browser.assert.text("section>h1", "End of Random Play:")
        });
 
-    it("4: Si se reponde bien, continúa el juego",
+    it("4: Si se responde bien, continúa el juego",
        1,
        async function () {
-           this.msg_err = "No continúa pese a responder bien";
 
            for(var i=0; i< 10; i++) {
+               this.msg_err = "No se ha podido acceder a /quizzes/randomplay";
                await browser.visit("/quizzes/randomplay");
                browser.assert.status(200);
                att = browser.query('form');
@@ -235,8 +235,9 @@ describe("Funcionales", function(){
                const id = parseInt(tokens[tokens.length-1])
                let question = questions[id-1]
                let answer = question.answer
-               await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
+
                this.msg_err = `No acepta la respuesta correcta para ${question}`
+               await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
                browser.assert.status(200)
                this.msg_err = `Tras una respuesta correcta, se repite la pregunta`
                await browser.visit("/quizzes/randomplay");
