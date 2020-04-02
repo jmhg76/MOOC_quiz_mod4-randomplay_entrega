@@ -31,6 +31,12 @@ var orig_it = it;
 
 const DEBUG =  typeof process.env.DEBUG !== "undefined";
 
+function log(msg) {
+    if(DEBUG) {
+        console.log(msg);
+    }
+}
+
 // Cambiar si cambia el seeder
 const questions = [
     {
@@ -61,23 +67,13 @@ it = function(name, score, func) {
         }
         const old_msg_ok = this.msg_ok;
         const old_msg_err = this.msg_err;
-        var ex;
         try {
-            res = await func.apply(this, [])
-        } catch(e){
-            ex = e;
-            if (DEBUG) {
-                console.log("Exception in test:", e)
-            }
-        }
-        if (this.msg_ok == old_msg_ok){
+            res = await func.apply(this, []);
             this.msg_ok =  "¡Enhorabuena!";
-        }
-        if (this.msg_err == old_msg_err){
+        } catch(e){
             this.msg_err =  "Ha habido un fallo";
-        }
-        if (ex){
-            throw(ex);
+            log("Exception in test:", e);
+            throw(e);
         }
     })
 }
@@ -110,34 +106,47 @@ describe("Funcionales", function(){
 
     var server;
     const db_file = path.join(path_assignment, '..', 'quiz.sqlite');
+
     before(async function() {
-        // Crear base de datos nueva y poblarla antes de los tests funcionales. por defecto, el servidor coge quiz.sqlite del CWD
-        fs.closeSync(fs.openSync(db_file, 'w'));
 
-        let sequelize_cmd = path.join(path_assignment, "node_modules", ".bin", "sequelize")
-        await exec(`${sequelize_cmd} db:migrate --url "sqlite://${db_file}" --migrations-path ${path.join(path_assignment, "migrations")}`)
-        await exec(`${sequelize_cmd} db:seed:all --url "sqlite://${db_file}" --seeders-path ${path.join(path_assignment, "seeders")}`)
-
-        let bin_path = path.join(path_assignment, "bin", "www");
-        server = spawn('node', [bin_path], {env: {PORT: 3000}});
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        browser.site = "http://localhost:3000/"
+        let err = null;
         try{
+            err = "No hemos podido crear la base de datos";
+            // Crear base de datos nueva y poblarla antes de los tests funcionales. por defecto, el servidor coge quiz.sqlite del CWD
+            try{
+                fs.unlinkSync(db_file);
+            } catch(e) {
+                // No se ha podido borrar la base de datos. Probablemente no existiera
+            }
+            fs.closeSync(fs.openSync(db_file, 'w'));
+
+            let sequelize_cmd = path.join(path_assignment, "node_modules", ".bin", "sequelize")
+            err = "No hemos podido lanzar las migraciones";
+            await exec(`${sequelize_cmd} db:migrate --url "sqlite://${db_file}" --migrations-path ${path.join(path_assignment, "migrations")}`)
+            err = "No hemos podido lanzar las seeds";
+            await exec(`${sequelize_cmd} db:seed:all --url "sqlite://${db_file}" --seeders-path ${path.join(path_assignment, "seeders")}`)
+
+            let bin_path = path.join(path_assignment, "bin", "www");
+
+            err = `Parece que no se puede lanzar el servidor con el comando "node ${bin_path}".`
+            server = spawn('node', [bin_path], {env: {PORT: 3000}});
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            browser.site = "http://localhost:3000/"
             await browser.visit("/");
             browser.assert.status(200);
-        } catch(e) {
-            console.log(`Parece que no se puede lanzar el servidor. Comprueba que el comando "node ${bin_path}" lanza el servidor correctamente.`);
-            error_critical = e;
-        }
+		    } catch(e) {
+            log(e);
+			      error_critical = err;
+		    }
     });
 
     after(async function() {
         // Borrar base de datos
         if(server){
             server.kill();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            fs.unlinkSync(db_file);
         }
-        await new Promise(resolve => setTimeout(resolve, 500));
-        fs.unlinkSync(db_file);
     })
 
     it("0: La barra de navegación incluye un botón de play",
