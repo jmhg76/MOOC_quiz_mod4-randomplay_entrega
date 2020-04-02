@@ -55,6 +55,10 @@ const questions = [
 it = function(name, score, func) {
     return orig_it(name, async function () {
         this.score = score;
+        if(error_critical) {
+            this.msg_err = 'No se puede realizar el test porque hay un fallo anterior.';
+            throw Error(this.msg_err);
+        }
         const old_msg_ok = this.msg_ok;
         const old_msg_err = this.msg_err;
         var ex;
@@ -114,15 +118,25 @@ describe("Funcionales", function(){
         await exec(`${sequelize_cmd} db:migrate --url "sqlite://${db_file}" --migrations-path ${path.join(path_assignment, "migrations")}`)
         await exec(`${sequelize_cmd} db:seed:all --url "sqlite://${db_file}" --seeders-path ${path.join(path_assignment, "seeders")}`)
 
-
-        server = spawn('node', [path.join(path_assignment, "bin", "www")]);
+        let bin_path = path.join(path_assignment, "bin", "www");
+        server = spawn('node', [bin_path], {env: {PORT: 3000}});
         await new Promise(resolve => setTimeout(resolve, 1000));
         browser.site = "http://localhost:3000/"
+        try{
+            await browser.visit("/");
+            browser.assert.status(200);
+        } catch(e) {
+            console.log(`Parece que no se puede lanzar el servidor. Comprueba que el comando "node _${bin_path}" lanza el servidor correctamente.`);
+            error_critical = e;
+        }
     });
 
     after(async function() {
         // Borrar base de datos
-        server.kill();
+        if(server){
+            server.kill();
+        }
+        await new Promise(resolve => setTimeout(resolve, 500));
         fs.unlinkSync(db_file);
     })
 
