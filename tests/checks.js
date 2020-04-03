@@ -57,21 +57,44 @@ const questions = [
     }
 ]
 
+// Preguntas incorrectas para probar el corrector
+// const questions = [
+//     {
+//         question: 'Capital of Italy',
+//         answer: 'No',
+//     },
+//     {
+//         question: 'Capital of Portugal',
+//         answer: 'No',
+//     },
+//     {
+//         question: 'Capital of Spain',
+//         answer: 'No',
+//     },
+//     {
+//         question: 'Capital of France',
+//         answer: 'No',
+//     }
+// ]
 
 it = function(name, score, func) {
     return orig_it(name, async function () {
         this.score = score;
+        this.msg_ok = null;
+        this.msg_err = null;
         if(error_critical) {
             this.msg_err = 'No se puede realizar el test porque hay un fallo anterior.';
             throw Error(this.msg_err);
         }
-        const old_msg_ok = this.msg_ok;
-        const old_msg_err = this.msg_err;
         try {
             res = await func.apply(this, []);
-            this.msg_ok =  "¡Enhorabuena!";
+            if(!this.msg_ok) {
+                this.msg_ok =  "¡Enhorabuena!";
+            }
         } catch(e){
-            this.msg_err =  "Ha habido un fallo";
+            if(!this.msg_err) {
+                this.msg_err =  "Ha habido un fallo";
+            }
             log("Exception in test:", e);
             throw(e);
         }
@@ -79,11 +102,11 @@ it = function(name, score, func) {
 }
 
 describe("Prechecks", function () {
-    it("1: Comprobando que existe el fichero de la entrega...",
+    it("1: Comprobando que existe el directorio de la entrega...",
        0,
        async function () {
-           this.msg_ok = `Encontrado el fichero '${path_assignment}'`;
-           this.msg_err = `No se encontró el fichero '${path_assignment}'`;
+           this.msg_ok = `Encontrado el directorio '${path_assignment}'`;
+           this.msg_err = `No se encontró el directorio '${path_assignment}'`;
            const fileexists = await Utils.checkFileExists(path_assignment);
 
            if (!fileexists) {
@@ -216,18 +239,20 @@ describe("Funcionales", function(){
     it("3: Se termina si no quedan más quizzes",
        2,
        async function () {
-           this.msg_ok = "Se han respondido todas las preguntas, y el juego termina correctamente";
-           this.msg_err = "Se han respondido todas las preguntas, pero el juego continúa";
 
+           this.msg_err = "Error al acceder a randomplay";
            await browser.visit("/quizzes/randomplay");
            att = browser.query('form')
+           this.msg_err = "Se han respondido todas las preguntas, pero el juego continúa";
+
            if(att){
                let tokens = att.action.split("/")
                let id = parseInt(tokens[tokens.length-1])
-               this.msg_err = `${this.msg_err} con la pregunta ${id}`
+               this.msg_err = `${this.msg_err} con la pregunta ${id}`;
                throw Error(this.msg_err)
            }
-
+           log(browser.html);
+           this.msg_err = "El juego no continúa, pero no se visualiza la página correcta";
            browser.assert.text("section>h1", "End of Random Play:")
        });
 
@@ -293,12 +318,11 @@ describe("Funcionales", function(){
                    await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
                    this.msg_err = `No acepta la respuesta correcta para ${question}`
                    browser.assert.status(200)
-                   const body = browser.text()
+                   const body = browser.text('section')
                    let num_aciertos = i+1
-                   this.msg_err = `Esperaba ${num_aciertos} aciertos, la página muestra ${body}`
+                   this.msg_err = `Esperaba ${num_aciertos} acierto(s), la página muestra ${body}`
                    body.includes(`Successful answers = ${num_aciertos}`).should.equal(true)
                }
            }
        });
-
 });
