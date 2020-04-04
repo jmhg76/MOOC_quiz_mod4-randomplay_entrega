@@ -158,6 +158,7 @@ describe("Funcionales", function(){
             await browser.visit("/");
             browser.assert.status(200);
 		    } catch(e) {
+            console.log(err);
             log(e);
 			      error_critical = err;
 		    }
