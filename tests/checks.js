@@ -9,9 +9,6 @@ const fs = require("fs");
 const process = require("process")
 var Git = require("nodegit");
 
-const path_assignment = path.resolve(path.join(__dirname, "../", "quiz_2020"));
-const URL = `file://${path_assignment.replace("%", "%25")}`;
-const browser = new Browser({"waitDuration": 500, "silent": true});
 
 // CRITICAL ERRORS
 let error_critical = null;
@@ -30,6 +27,11 @@ let error_critical = null;
 var orig_it = it;
 
 const DEBUG =  typeof process.env.DEBUG !== "undefined";
+const WAIT =  typeof process.env.WAIT !== "undefined"?parseInt(process.env.WAIT):50000;
+
+const path_assignment = path.resolve(path.join(__dirname, "../", "quiz_2020"));
+const URL = `file://${path_assignment.replace("%", "%25")}`;
+const browser = new Browser({"waitDuration": WAIT, "silent": true});
 
 function log(msg) {
     if(DEBUG) {
