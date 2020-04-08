@@ -26,6 +26,8 @@ let error_critical = null;
 
 var orig_it = it;
 
+
+const TEST_PORT =  typeof process.env.TEST_PORT !== "undefined"?parseInt(process.env.TEST_PORT):3000;
 const DEBUG =  typeof process.env.DEBUG !== "undefined";
 const WAIT =  typeof process.env.WAIT !== "undefined"?parseInt(process.env.WAIT):50000;
 
@@ -154,9 +156,9 @@ describe("Funcionales", function(){
             let bin_path = path.join(path_assignment, "bin", "www");
 
             err = `Parece que no se puede lanzar el servidor con el comando "node ${bin_path}".`
-            server = spawn('node', [bin_path], {env: {PORT: 3000}});
+            server = spawn('node', [bin_path], {env: {PORT: TEST_PORT}});
             await new Promise(resolve => setTimeout(resolve, 1000));
-            browser.site = "http://localhost:3000/"
+            browser.site = `http://localhost:${TEST_PORT}/`
             await browser.visit("/");
             browser.assert.status(200);
 		    } catch(e) {
