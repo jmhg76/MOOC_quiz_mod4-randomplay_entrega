@@ -30,6 +30,8 @@ var orig_it = it;
 const TEST_PORT =  typeof process.env.TEST_PORT !== "undefined"?parseInt(process.env.TEST_PORT):3000;
 const DEBUG =  typeof process.env.DEBUG !== "undefined";
 const WAIT =  typeof process.env.WAIT !== "undefined"?parseInt(process.env.WAIT):50000;
+const TIMEOUT =  typeof process.env.TIMEOUT !== "undefined"?parseInt(process.env.TIMEOUT):2000;
+
 
 const path_assignment = path.resolve(path.join(__dirname, "../", "quiz_2020"));
 const URL = `file://${path_assignment.replace("%", "%25")}`;
@@ -157,7 +159,7 @@ describe("Funcionales", function(){
 
             err = `Parece que no se puede lanzar el servidor con el comando "node ${bin_path}".`
             server = spawn('node', [bin_path], {env: {PORT: TEST_PORT}});
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, TIMEOUT));
             browser.site = `http://localhost:${TEST_PORT}/`
             await browser.visit("/");
             browser.assert.status(200);
