@@ -191,12 +191,12 @@ describe("Funcionales", function(){
        2,
        async function () {
            // Lanzamos 10 intentos de partida, sin cookies. Debería haber más de 2 preguntas diferentes
-           this.msg_err = `Se repite el orden de los quizzes`;
 
            let visited = {}
            let num = 0;
 
            for(var i=0; i<10; i++) {
+               this.msg_err = 'No se ha podido acceder a randomplay';
                await browser.visit("/quizzes/randomplay");
                browser.assert.status(200)
                att = browser.query('form')
@@ -209,6 +209,7 @@ describe("Funcionales", function(){
                browser.deleteCookies();
            }
 
+           this.msg_err = `Se repite el orden de los quizzes`;
            num.should.be.above(1)
        });
 
@@ -239,6 +240,7 @@ describe("Funcionales", function(){
                let id = parseInt(tokens[tokens.length-1])
                let q = questions[id-1]
                let answer = q.answer
+               this.msg_err = `No se ha podido acceder a /quizzes/randomcheck/${id}?answer=${answer}`;
                await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
            }
        });
@@ -293,11 +295,12 @@ describe("Funcionales", function(){
     it("5: Al fallar se termina el juego",
        1,
        async function () {
-           this.msg_err = "Al fallar hay un error";
+           this.msg_err = "No permite acceder a /quizzes/randomplay/";
 
            browser.deleteCookies();
            await browser.visit("/quizzes/randomplay");
            browser.assert.status(200);
+           this.msg_err = "No permite acceder a /quizzes/randomcheck/ con una respuesta incorrecta";
            await browser.visit("/quizzes/randomcheck/1?answer=This answer is wrong")
            browser.assert.status(200);
 
@@ -315,6 +318,7 @@ describe("Funcionales", function(){
            for(var j=0; j<2; j++){
                browser.deleteCookies();
                for(var i=0; i< questions.length; i++) {
+                   this.msg_err = `Error al acceder a randomplay (en el intento número ${i+1})`;
                    await browser.visit("/quizzes/randomplay");
                    browser.assert.status(200);
                    att = browser.query('form');
@@ -322,8 +326,8 @@ describe("Funcionales", function(){
                    const id = parseInt(tokens[tokens.length-1])
                    let question = questions[id-1]
                    let answer = question.answer
-                   await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
-                   this.msg_err = `No acepta la respuesta correcta para ${question}`
+                   this.msg_err = `No acepta la respuesta correcta para ${question}`;
+                   await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`);
                    browser.assert.status(200)
                    const body = browser.text('section')
                    let num_aciertos = i+1
