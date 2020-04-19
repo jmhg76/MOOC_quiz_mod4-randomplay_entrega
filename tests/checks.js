@@ -279,7 +279,7 @@ describe("Funcionales", function(){
                let question = questions[id-1]
                let answer = question.answer
 
-               this.msg_err = `No acepta la respuesta correcta para ${question}`
+               this.msg_err = `No acepta la respuesta correcta para ${question.question} (${question.answer})`
                await browser.visit(`/quizzes/randomcheck/${id}?answer=${answer}`)
                browser.assert.status(200)
                this.msg_err = `Tras una respuesta correcta, se repite la pregunta`
