@@ -37,7 +37,7 @@ const COOLDOWN =  typeof process.env.COOLDOWN !== "undefined"?parseInt(process.e
 
 const path_assignment = path.resolve(path.join(__dirname, "../", "quiz_2020"));
 const URL = `file://${path_assignment.replace("%", "%25")}`;
-const browser = new Browser({"waitDuration": WAIT, "silent": true});
+const browser = new Browser({"waitDuration": WAIT, "silent": true, "runScripts": false});
 
 
 function log() {
