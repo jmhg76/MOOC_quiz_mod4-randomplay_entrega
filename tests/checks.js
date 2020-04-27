@@ -27,7 +27,7 @@ let error_critical = null;
 var orig_it = it;
 
 
-const TEST_PORT =  typeof process.env.TEST_PORT !== "undefined"?parseInt(process.env.TEST_PORT):3000;
+const TEST_PORT =  typeof process.env.TEST_PORT !== "undefined"?parseInt(process.env.TEST_PORT):3001;
 const LOG_SERVER =  typeof process.env.LOG_SERVER !== "undefined";
 const DEBUG =  typeof process.env.DEBUG !== "undefined";
 const WAIT =  typeof process.env.WAIT !== "undefined"?parseInt(process.env.WAIT):50000;
@@ -152,24 +152,23 @@ describe("Funcionales", function(){
 
         let err = null;
         try{
-            err = "No hemos podido crear la base de datos";
             // Crear base de datos nueva y poblarla antes de los tests funcionales. por defecto, el servidor coge quiz.sqlite del CWD
-            try{
+            err = `Existe una base de datos en ${db_file}, pero no hemos podido borrarla.`;
+            if (fs.existsSync(db_file)) {
                 fs.unlinkSync(db_file);
-            } catch(e) {
-                // No se ha podido borrar la base de datos. Probablemente no existiera
             }
+            err = "No hemos podido crear la base de datos";
             fs.closeSync(fs.openSync(db_file, 'w'));
 
-            let sequelize_cmd = path.join(path_assignment, "node_modules", ".bin", "sequelize")
+            let sequelize_cmd = path.join(path_assignment, "node_modules", ".bin", "sequelize");
             err = "No hemos podido lanzar las migraciones";
-            await exec(`${sequelize_cmd} db:migrate --url "sqlite://${db_file}" --migrations-path ${path.join(path_assignment, "migrations")}`)
+            await exec(`${sequelize_cmd} db:migrate --url "sqlite://${db_file}" --migrations-path ${path.join(path_assignment, "migrations")}`);
             err = "No hemos podido lanzar las seeds";
-            await exec(`${sequelize_cmd} db:seed:all --url "sqlite://${db_file}" --seeders-path ${path.join(path_assignment, "seeders")}`)
+            await exec(`${sequelize_cmd} db:seed:all --url "sqlite://${db_file}" --seeders-path ${path.join(path_assignment, "seeders")}`);
 
             let bin_path = path.join(path_assignment, "bin", "www");
 
-            err = `Parece que no se puede lanzar el servidor con el comando "node ${bin_path}".`
+            err = `Parece que no se puede lanzar el servidor con el comando "node ${bin_path}".`;
             server = spawn('node', [bin_path], {env: {PORT: TEST_PORT}});
 
             if(LOG_SERVER) {
@@ -178,15 +177,30 @@ describe("Funcionales", function(){
                 });
             }
 
+            server.stderr.on('data', function(data) {
+                console.log('\t\tError en el servidor: ', data.toString()); 
+            });
+
             await new Promise(resolve => setTimeout(resolve, TIMEOUT));
-            browser.site = `http://localhost:${TEST_PORT}/`
-            await visit("/");
+
+            // The exit code should be null while the server is running
+            if(server.exitCode) {
+                throw Error("El servidor se ha parado.");
+                
+            }
+
+            browser.site = `http://localhost:${TEST_PORT}/`;
+            await browser.visit("/");
             browser.assert.status(200);
-		    } catch(e) {
+
+        } catch(e) {
             console.log(err);
+            console.log();
+            console.log('Este es un error crítico, así que no podemos realizar el resto de tests.');
+            console.log();
             log(e);
-			      error_critical = err;
-		    }
+            error_critical = err;
+        }
     });
 
     after(async function() {
