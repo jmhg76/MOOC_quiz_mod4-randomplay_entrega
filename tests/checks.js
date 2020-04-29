@@ -215,8 +215,10 @@ describe("Funcionales", function(){
     it("0: La barra de navegación incluye un botón de play",
        1,
        async function(){ 
+           this.msg_err = "No se pudo acceder a /quizzes";
            await visit("/quizzes");
            browser.assert.status(200)
+           this.msg_err = "No se encuentra el botón";
            browser.assert.text('a[href="/quizzes/randomplay"]', "Play")
        });
 
