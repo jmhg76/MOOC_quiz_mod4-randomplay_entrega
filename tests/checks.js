@@ -198,7 +198,7 @@ describe("Funcionales", function(){
             console.log();
             console.log('Este es un error crítico, así que no podemos realizar el resto de tests.');
             console.log();
-            log(e);
+            console.log(e);
             error_critical = err;
         }
     });
