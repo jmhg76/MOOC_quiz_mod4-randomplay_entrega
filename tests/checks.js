@@ -22,7 +22,7 @@ let error_critical = null;
 // - **20%:** Si se responde bien, continúa el juego.
 // - **20%:** Al fallar se termina el juego.
 
-// Comprobar rama entrega8?
+// Comprobar rama randomplay?
 
 var orig_it = it;
 
@@ -133,12 +133,12 @@ describe("Prechecks", function () {
            fileexists.should.be.equal(true);
        });
 
-    it("1: Comprobando que existe la rama entrega8",
+    it("1: Comprobando que existe la rama randomplay",
        0,
        async function () {
-           this.msg_err = "No se encuentra la rama entrega8"
+           this.msg_err = "No se encuentra la rama randomplay"
            repo = await Git.Repository.open(path_assignment);
-           commit = await repo.getBranchCommit("entrega8")
+           commit = await repo.getBranchCommit("randomplay")
        });
 });
 

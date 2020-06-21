@@ -1,13 +1,13 @@
 {
-    "name": "Entrega8_randomplay",
-    "author": "CORE-2020",
+    "name": "MOOC_quiz_mod4-randomplay_entrega",
+    "author": "ging-moocs",
     "license": "GNU",
-    "version": "0.1.16",
+    "version": "0.1.7",
     "info": {
-        "githubURL": "CORE-2020/Entrega8_randomplay",
+        "githubURL": "ging-moocs/MOOC_quiz_mod4-randomplay_entrega",
         "serverUrl": "https://autocorector.dit.upm.es/",
-        "courseId": "8249",
-        "assignmentId": "78802"
+        "courseId": "4",
+        "assignmentId": "7"
     },
     "dependencies": {
         "nodegit": "^0.26.5"

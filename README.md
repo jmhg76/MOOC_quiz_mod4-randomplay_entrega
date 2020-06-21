@@ -1,11 +1,10 @@
+
 <img  align="left" width="150" style="float: left;" src="https://www.upm.es/sfs/Rectorado/Gabinete%20del%20Rector/Logos/UPM/CEI/LOGOTIPO%20leyenda%20color%20JPG%20p.png">
-<img  align="right" width="60" style="float: right;" src="http://www.dit.upm.es/figures/logos/ditupm-big.gif">
+<img  align="right" width="150" style="float: right;" src="https://miriadax.net/miriadax-theme/images/custom/logo_miriadax_new.svg">
 
 <br/><br/><br/>
-
-# Entrega 8: Quiz RandomPlay
-
-Versión: 26 de Marzo de 2020
+Módulo 4: Recurso usuarios, Autenticación, Autorización y Registro, Autores de Preguntas y Mis Preguntas
+Versión: 19 de Junio de 2020
 
 ## Objetivos
 
@@ -33,23 +32,23 @@ GET /quizzes/randomcheck/:quizId?answer=respuesta
 
 Para desarrollar esta práctica es necesario utilizar la **versión 12 de Node.js**.
 
-El alumno debe clonar en su ordenador de trabajo, el repositorio **git** del proyecto **Entrega8\_randomplay**:
+El alumno debe clonar en su ordenador de trabajo, el repositorio **git** del proyecto **MOOC_quiz_mod4-randomplay_entrega**:
 
 ```sh
-$ git clone https://github.com/CORE-2020/Entrega8_randomplay
+$ git clone https://github.com/ging-moocs/MOOC_quiz_mod4-randomplay_entrega
 ```
 
-Este proyecto **Entrega8\_randomplay** solo contiene los ficheros necesarios para ejecutar el autocorrector. El alumno debe clonar también el repositorio **git** del proyecto **Quiz** desarrollado en la asignatura, en un subdirectorio de **Entrega8\_randomplay**. El proyecto **Quiz** está disponible en el siguiente repositorio git:
+Este proyecto **MOOC_quiz_mod4-randomplay_entrega** solo contiene los ficheros necesarios para ejecutar el autocorrector. El alumno debe clonar también el repositorio **git** del proyecto **Quiz** desarrollado en la asignatura, en un subdirectorio de **MOOC_quiz_mod4-randomplay_entrega**. El proyecto **Quiz** está disponible en el siguiente repositorio git:
 
 ```url
 https://github.com/CORE-UPM/quiz_2020
 ```
 
-Para clonar el proyecto **Quiz** en un subdirectorio dentro del proyecto **Entrega8\_randomplay**, e instalar las dependencias necesarias, hay que ejecutar: 
+Para clonar el proyecto **Quiz** en un subdirectorio dentro del proyecto **MOOC_quiz_mod4-randomplay_entrega**, e instalar las dependencias necesarias, hay que ejecutar: 
 
 
 ```sh
-$ cd Entrega8_randomplay
+$ cd MOOC_quiz_mod4-randomplay_entrega
 $ npm install 
 $ git clone https://github.com/CORE-UPM/quiz_2020
 $ cd quiz_2020
@@ -62,30 +61,30 @@ Tras ejecutar estos comandos, el proyecto **Quiz** se ha instalado en el subdire
 
 ### Tarea 1 - Crear una rama git
 
-Para realizar esta práctica el alumno debe crear una rama, denominada **entrega8**, en el commit identificado con el tag **2.5\_restoration** ("*Step 2.5: Restoration Routes.*") del proyecto **Quiz**. El último commit de esta rama será la versión de la practica que se evaluará.
+Para realizar esta práctica el alumno debe crear una rama, denominada **randomplay**, en el commit identificado con el tag **2.5\_restoration** ("*Step 2.5: Restoration Routes.*") del proyecto **Quiz**. El último commit de esta rama será la versión de la practica que se evaluará.
 
-Nota: Asegúrese de que se encuentra en el subdirectorio **Entrega8\_randomplay/quiz\_2020** antes de ejecutar los comandos que se describen más abajo.
+Nota: Asegúrese de que se encuentra en el subdirectorio **MOOC_quiz_mod4-randomplay_entrega/quiz\_2020** antes de ejecutar los comandos que se describen más abajo.
 
 
-El alumno puede crear la rama **entrega8** ejecutando el siguiente comando:
+El alumno puede crear la rama **randomplay** ejecutando el siguiente comando:
 
 ```sh
-$ git branch entrega8 2.5_restoration
+$ git branch randomplay 2.5_restoration
 ```
 
-Este comando crea la rama **entrega8** en el commit identificado por el tag **2.5\_restoration**.
+Este comando crea la rama **randomplay** en el commit identificado por el tag **2.5\_restoration**.
 
 Para cambiarse a esta rama, y desarrollar dentro de ella, hay que ejecutar:
 
 ```sh
-$ git checkout entrega8
+$ git checkout randomplay
 ```
 
-Para comprobar que se está trabajando en la rama **entrega8**, el alumno puede ejecutar el comando **"git branch"**, que presentará un listado de las ramas existentes, y marcando con un asterisco la rama actual de trabajo.
+Para comprobar que se está trabajando en la rama **randomplay**, el alumno puede ejecutar el comando **"git branch"**, que presentará un listado de las ramas existentes, y marcando con un asterisco la rama actual de trabajo.
 
 ```sh
 $ git branch
-* entrega8
+* randomplay
 master
 ```
 
@@ -310,58 +309,24 @@ $ git add controllers/quiz.js
 $ git commit
 ```
 
-## Prueba de la práctica
+## Prueba de la práctica 
 
-Para ayudar al desarrollo, se provee una herramienta de autocorrección que prueba las distintas funcionalidades que se piden en el enunciado. Para utilizar esta herramienta debes tener node.js (y npm) (https://nodejs.org/es/) y Git instalados.
+Para ayudar al desarrollo, se provee una herramienta de autocorrección que prueba las distintas funcionalidades que se piden en el enunciado. Para utilizar esta herramienta debes tener node.js (y npm) ([https://nodejs.org/es/](https://nodejs.org/es/)) y Git instalados. 
 
-Para instalar y hacer uso de la herramienta de autocorrección en el ordenador local, ejecuta los siguientes comandos en el directorio raíz del proyecto, es decir, en el directorio padre del directorio **quiz\_express**:
+Para instalar y hacer uso de la [herramienta de autocorrección](https://www.npmjs.com/package/moocauto) en el ordenador local, ejecuta los siguientes comandos en el directorio del proyecto:
 
-```sh
-$ npm install -g autocorector    ## Instala el programa de test
-$ autocorector                   ## Pasa los tests al fichero a entregar
-............................     ## en el directorio de trabajo
+```
+$ npm install -g moocauto     ## Instala el programa de test
+$ moocauto                    ## Pasa los tests al fichero a entregar
+............................  ## en el directorio de trabajo
 ... (resultado de los tests)
 ```
-
-También se puede instalar como paquete local, en el caso de que no dispongas de permisos en 
-el ordenador en el que estás trabajando:
-
-```sh
-$ npm install autocorector     ## Instala el programa de test
-$ npx autocorector             ## Pasa los tests al fichero a entregar
+También se puede instalar como paquete local, en el caso de que no se dispongas de permisos en el ordenador desde el que estás trabajando:
+```
+$ npm install moocauto         ## Instala el programa de test
+$ npx moocauto                 ## Pasa los tests al fichero a entregar
 ............................   ## en el directorio de trabajo
 ... (resultado de los tests)
 ```
 
-Se puede pasar la herramienta de autocorrección tantas veces como se desee sin ninguna repercusión en la calificación.
-
-## Instrucciones para la Entrega y Evaluación.
-
-Una vez satisfecho con su calificación, el alumno puede subir su entrega a Moodle con el siguiente comando:
-
-```sh
-$ autocorector --upload
-```
-
-o, si se ha instalado como paquete local:
-
-```sh
-$ npx autocorector --upload
-```
-
-La herramienta de autocorrección preguntará por el correo del alumno y el token de Moodle. 
-En el enlace **https://www.npmjs.com/package/autocorector** se proveen instrucciones para encontrar dicho token.
-
-**RÚBRICA**: Se puntuará el ejercicio a corregir sumando el % indicado a la nota total si la parte indicada es correcta:
-
-- **10%:** Existe la rama "entrega8". 
-- **10%:** Se muestra la puntuación correcta tras cada respuesta. 
-- **20%:** Los quizzes se eligen aleatoriamente.
-- **20%:** No se repiten los quizzes.
-- **20%:** Se termina si no quedan más quizzes.
-- **10%:** Si se responde bien, continúa el juego.
-- **10%:** Al fallar se termina el juego.
-
-
-Si pasa todos los tests se dará la máxima puntuación.
-
+Se puede pasar la herramienta de autocorrección tantas veces como se desee.
