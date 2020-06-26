@@ -330,3 +330,16 @@ $ npx moocauto                 ## Pasa los tests al fichero a entregar
 ```
 
 Se puede pasar la herramienta de autocorrección tantas veces como se desee.
+
+
+A la hora de evaluar, el evaluador tendrá que seguir los siguientes criterios:
+
+**RÚBRICA:** Se puntuará el ejercicio a corregir sumando el % indicado a la nota total si la parte indicada es correcta:
+
+* **10%:** Existe la rama "entrega8".
+* **10%:** Se muestra la puntuación correcta tras cada respuesta.
+* **20%:** Los quizzes se eligen aleatoriamente.
+* **20%:** No se repiten los quizzes.
+* **20%:** Se termina si no quedan más quizzes.
+* **10%:** Si se responde bien, continúa el juego.
+* **10%:** Al fallar se termina el juego.

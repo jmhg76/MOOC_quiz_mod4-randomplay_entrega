@@ -3,3 +3,4 @@ quiz_2020
 data
 node_modules
 user.json
+*.sqlite
